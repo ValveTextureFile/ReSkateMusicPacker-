@@ -5,7 +5,7 @@ edition = "2024"
 rust-version = "1.88"
 license = "GPL-3.0-only"
 description = "Packs a folder of songs into an add-only music mod for skate. (ReSkate)"
-repository = "https://github.com/DeckardDetribine/ReSkateMusicPacker"
+repository = "https://github.com/ValveTextureFile/ReSkateMusicPacker-"
 publish = false
 
 [lib]
