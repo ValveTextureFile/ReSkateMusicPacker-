@@ -5,10 +5,10 @@ All notable changes to ReSkate Music Packer are documented here.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), and this project
 adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [2.0.0] - Unreleased
+## [1.0.0] - 2026-10-12
 
 A rewrite in Rust. Same Dear ImGui interface, command line and mod format; mods and projects made
-by 1.x open and rebuild unchanged.
+by the C++ version open and rebuild unchanged.
 
 ### Added
 
@@ -29,7 +29,7 @@ by 1.x open and rebuild unchanged.
   every system.
 - Thunderstore export runs in the background, zips straight from the mod folder in a reproducible
   order, and never leaves a partial zip.
-- `--name` defaults to the song folder's name, as documented (1.x used "ReSkateMusic").
+- `--name` defaults to the song folder's name, as documented (the C++ version used "ReSkateMusic").
 - Package directories are matched case-insensitively, for case-sensitive file systems.
 - On Windows the ffmpeg download uses the system TLS stack and certificate store.
 
