@@ -68,3 +68,7 @@ Settings, the encode cache and the mod format are where they were (`%APPDATA%` a
 ## License
 
 GPL-3.0-only; see [NOTICE.md](NOTICE.md) for attribution and bundled assets.
+
+## 🤖 AI Disclosure
+
+This project utilizes **Claude**, a family of large language models developed by **Anthropic**, to assist with code cleanup, releasing workflows, and others. Like all other AIs, Claude can be inaccurate. If you notice something wrong, please open an Issue or a PR with the fix.
