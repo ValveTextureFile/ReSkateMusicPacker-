@@ -1,4 +1,4 @@
-# ReSkate Music Packer
+# ReSkate Music Packer+
 
 Turns a folder of songs into an **add-only music mod** for *skate.* running on
 [ReSkate](https://github.com/Dingo-Shenanigans/ReSkate): every song gets its own assets and audio,
