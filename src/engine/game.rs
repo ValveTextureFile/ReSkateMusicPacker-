@@ -37,7 +37,7 @@ pub fn archive_index(stem: &str) -> Option<u16> {
 /// Each record of layout.toc's install chunk file tables: a little-endian archive index followed
 /// by the install chunk id it belongs to.
 fn install_chunk_files(table: &[u8]) -> impl Iterator<Item = (u32, u16)> + '_ {
-    table.chunks_exact(8).map(|record| {
+    table.as_chunks::<8>().0.iter().map(|record| {
         let archive = u16::from_le_bytes([record[0], record[1]]);
         let id = u32::from_le_bytes([record[2], record[3], record[4], record[5]]);
         (id, archive)

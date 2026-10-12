@@ -82,7 +82,12 @@ struct Args {
 }
 
 fn pairs(values: &[OsString]) -> Vec<(String, PathBuf)> {
-    values.chunks_exact(2).map(|pair| (pair[0].to_string_lossy().into_owned(), PathBuf::from(&pair[1]))).collect()
+    values
+        .as_chunks::<2>()
+        .0
+        .iter()
+        .map(|pair| (pair[0].to_string_lossy().into_owned(), PathBuf::from(&pair[1])))
+        .collect()
 }
 
 fn same_file(left: &Path, right: &Path) -> bool {

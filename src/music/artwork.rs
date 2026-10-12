@@ -101,9 +101,11 @@ pub fn decode_png_rgba(bytes: &[u8]) -> Result<(Vec<u8>, u32, u32)> {
     buffer.truncate(info.buffer_size());
     let rgba = match info.color_type {
         png::ColorType::Rgba => buffer,
-        png::ColorType::Rgb => buffer.chunks_exact(3).flat_map(|p| [p[0], p[1], p[2], 255]).collect(),
+        png::ColorType::Rgb => buffer.as_chunks::<3>().0.iter().flat_map(|p| [p[0], p[1], p[2], 255]).collect(),
         png::ColorType::Grayscale => buffer.iter().flat_map(|&g| [g, g, g, 255]).collect(),
-        png::ColorType::GrayscaleAlpha => buffer.chunks_exact(2).flat_map(|p| [p[0], p[0], p[0], p[1]]).collect(),
+        png::ColorType::GrayscaleAlpha => {
+            buffer.as_chunks::<2>().0.iter().flat_map(|p| [p[0], p[0], p[0], p[1]]).collect()
+        }
         png::ColorType::Indexed => bail!("Could not read the cover image: unexpanded palette"),
     };
     Ok((rgba, info.width, info.height))
@@ -342,7 +344,7 @@ mod tests {
         let (pixels, width, height) = decode_png_rgba(&png).unwrap();
         assert_eq!((width, height), (512, 512));
         // The text is white: some pixels inside the title area are much brighter than the gradient.
-        assert!(pixels.chunks_exact(4).any(|p| p[0] > 230 && p[1] > 230 && p[2] > 230));
+        assert!(pixels.as_chunks::<4>().0.iter().any(|p| p[0] > 230 && p[1] > 230 && p[2] > 230));
         assert!(playlist_artwork_png("").is_err());
         assert_eq!(png, playlist_artwork_png("A Rather Long Playlist Name That Has To Wrap Over Lines").unwrap());
     }
