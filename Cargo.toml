@@ -1,0 +1,80 @@
+[package]
+name = "reskate-music-packer"
+version = "2.0.0"
+edition = "2024"
+rust-version = "1.88"
+license = "GPL-3.0-only"
+description = "Packs a folder of songs into an add-only music mod for skate. (ReSkate)"
+repository = "https://github.com/DeckardDetribine/ReSkateMusicPacker"
+publish = false
+
+[lib]
+name = "reskate_music"
+path = "src/lib.rs"
+
+[[bin]]
+name = "ReSkateMusicPacker"
+path = "src/main.rs"
+
+[features]
+default = ["gui"]
+# The Dear ImGui window. Without it the binary is CLI-only (handy for headless builds and CI).
+gui = [
+    "dep:dear-imgui-rs",
+    "dep:dear-imgui-winit",
+    "dep:dear-imgui-glow",
+    "dep:glow",
+    "dep:glutin",
+    "dep:glutin-winit",
+    "dep:winit",
+    "dep:raw-window-handle",
+    "dep:rfd",
+    "dep:opener",
+    "dep:sysinfo",
+]
+
+[dependencies]
+# Library
+ab_glyph = "0.2"
+clap = { version = "4", features = ["derive"] }
+dirs = "7"
+hex = "0.4"
+lz4_flex = { version = "0.14", default-features = false, features = ["std", "safe-decode"] }
+miniz_oxide = "0.9"
+oozextract = "0.5"
+png = "0.18"
+ruzstd = "0.9"
+serde_json = "1"
+sha1 = "0.11"
+sha2 = "0.11"
+thiserror = "2"
+uuid = { version = "1", features = ["v4"] }
+zip = { version = "9", default-features = false, features = ["deflate"] }
+
+# GUI
+dear-imgui-rs = { version = "0.18", optional = true }
+dear-imgui-winit = { version = "0.18", optional = true }
+dear-imgui-glow = { version = "0.18", optional = true }
+glow = { version = "0.18", optional = true }
+glutin = { version = "0.32", optional = true }
+glutin-winit = { version = "0.5", optional = true }
+winit = { version = "0.30", optional = true }
+raw-window-handle = { version = "0.6", optional = true }
+rfd = { version = "0.17", optional = true }
+opener = { version = "0.9", features = ["reveal"], optional = true }
+sysinfo = { version = "0.38", default-features = false, features = ["system"], optional = true }
+
+# The ffmpeg download: the system's TLS on Windows (schannel and its certificate store, as
+# WinHTTP was before), rustls elsewhere.
+[target.'cfg(not(windows))'.dependencies]
+ureq = "3"
+
+[target.'cfg(windows)'.dependencies]
+ureq = { version = "3", default-features = false, features = ["gzip", "native-tls"] }
+libloading = "0.9"
+windows-sys = { version = "0.61", features = ["Win32_Foundation", "Win32_Security", "Win32_Storage_FileSystem", "Win32_System_Console"] }
+
+[profile.release]
+lto = "thin"
+codegen-units = 1
+strip = true
